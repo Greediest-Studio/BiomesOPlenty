@@ -21,40 +21,26 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import java.lang.reflect.Field;
 
 public class BlockBloodFluid extends BlockFluidClassic
 {
     public BlockBloodFluid(Fluid fluid)
     {
-        super(fluid, getWaterMaterial());
+        super(fluid, getMaterialWater());
         this.setLightOpacity(3);
         this.setHardness(100.0F);
     }
     
-    private static Material getWaterMaterial()
+    private static Material getMaterialWater()
     {
-        // Try to get WATER material using reflection for compatibility with Cleanroom
         try
         {
-            // Try Material.WATER first
-            Field waterField = Material.class.getDeclaredField("WATER");
-            return (Material) waterField.get(null);
+            return Material.WATER;
         }
-        catch (Exception e)
+        catch (NoSuchFieldError e)
         {
-            try
-            {
-                // Try MaterialLiquid.WATER as fallback
-                Class<?> materialLiquidClass = Class.forName("net.minecraft.block.material.MaterialLiquid");
-                Field waterField = materialLiquidClass.getDeclaredField("WATER");
-                return (Material) waterField.get(null);
-            }
-            catch (Exception ex)
-            {
-                // Ultimate fallback: create a new material with water properties
-                return new Material(MapColor.WATER);
-            }
+            // Fallback for compatibility issues
+            return net.minecraft.block.material.MaterialLiquid.WATER;
         }
     }
 
