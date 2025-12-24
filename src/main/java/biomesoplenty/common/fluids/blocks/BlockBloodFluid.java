@@ -26,9 +26,22 @@ public class BlockBloodFluid extends BlockFluidClassic
 {
     public BlockBloodFluid(Fluid fluid)
     {
-        super(fluid, Material.WATER);
+        super(fluid, getMaterialWater());
         this.setLightOpacity(3);
         this.setHardness(100.0F);
+    }
+    
+    private static Material getMaterialWater()
+    {
+        try
+        {
+            return Material.WATER;
+        }
+        catch (NoSuchFieldError e)
+        {
+            // Fallback for compatibility issues
+            return net.minecraft.block.material.MaterialLiquid.WATER;
+        }
     }
 
     @Override
