@@ -79,13 +79,13 @@ public class BlockBloodFluid extends BlockFluidClassic
 
             if (integer.intValue() == 0)
             {
-                worldIn.setBlockState(pos, BOPBlocks.flesh.getDefaultState());
+                worldIn.setBlockState(pos, BOPBlocks.flesh.getDefaultState(), 2);
                 return true;
             }
 
             if (integer.intValue() <= 4)
             {
-                worldIn.setBlockState(pos, BOPBlocks.flesh.getDefaultState());
+                worldIn.setBlockState(pos, BOPBlocks.flesh.getDefaultState(), 2);
                 return true;
             }
         }

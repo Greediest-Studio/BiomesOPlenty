@@ -89,13 +89,15 @@ task changelog(type: JenkinsChangelog) {
 
     serverRoot = 'http://ci.jenkins.minecraftforge.net/'
     jobName = 'BiomesOPlenty'
-    authName = project.getProperty('forgeJenkinsUsername')
-    authPassword = project.getProperty('forgeJenkinsPassword')
+    authName = project.hasProperty('forgeJenkinsUsername') ? project.getProperty('forgeJenkinsUsername') : ''
+    authPassword = project.hasProperty('forgeJenkinsPassword') ? project.getProperty('forgeJenkinsPassword') : ''
     targetBuild = buildNumber.toString()
     output = 'build/libs/' + project.getName() + '-' + project.version + '-changelog.txt'
 }
 
-uploadArchives.dependsOn 'changelog'
+if (project.hasProperty('forgeJenkinsUsername') && project.hasProperty('forgeJenkinsPassword')) {
+    uploadArchives.dependsOn 'changelog'
+}
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
@@ -157,11 +159,13 @@ artifacts {
 }
 
 curseforge {
-    apiKey = project.getProperty('curseApiKey')
-    project {
-        id = '220318'
-        changelog = file('build/libs/' + project.getName() + '-' + project.version + '-changelog.txt')
-        releaseType = 'beta'
+    if (project.hasProperty('curseApiKey')) {
+        apiKey = project.getProperty('curseApiKey')
+        project {
+            id = '220318'
+            changelog = file('build/libs/' + project.getName() + '-' + project.version + '-changelog.txt')
+            releaseType = 'beta'
+        }
     }
 }
 
