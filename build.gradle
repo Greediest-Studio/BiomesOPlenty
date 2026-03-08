@@ -18,6 +18,10 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 
+if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+    throw new GradleException("Biomes O' Plenty 1.12.2 must be built with Java 8 (JDK), current: ${JavaVersion.current()}. Set Gradle JVM/JAVA_HOME to JDK 8.")
+}
+
 // define the properties file
 ext.configFile = file "build.properties"
 
