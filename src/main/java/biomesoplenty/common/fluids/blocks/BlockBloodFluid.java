@@ -65,7 +65,8 @@ public class BlockBloodFluid extends BlockFluidClassic
         {
             if (enumfacing != EnumFacing.DOWN && (worldIn.getBlockState(pos.offset(enumfacing)).getMaterial().isLiquid() == true))
             {
-            	if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() != this.getBlockState().getBlock())
+                Material neighborMaterial = worldIn.getBlockState(pos.offset(enumfacing)).getMaterial();
+                if (neighborMaterial != Material.LAVA && worldIn.getBlockState(pos.offset(enumfacing)).getBlock() != this.getBlockState().getBlock())
             	{
 	                flag = true;
 	                break;
